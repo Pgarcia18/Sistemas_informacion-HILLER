@@ -56,6 +56,7 @@ $link = Conectarse();
                 <li><a href="entregas.php"><em class="fa fa-bar-chart">&nbsp;</em> Entregas</a></li>
                 <li><a href="reparacion.php"><em class="fa fa-toggle-off">&nbsp;</em> Reparacion</a></li>
                 <li><a href="traslado.php"><em class="fa fa-clone">&nbsp;</em> Traslados</a></li>
+                <li><a href="traslado.php"><em class="fa fa-toggle-off">&nbsp;</em> Orden traslado</a></li>
                 <li class="parent ">
                     <a data-toggle="collapse" href="#sub-item-1">
                         <em class="fa fa-navicon">&nbsp;</em> Parametros <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>

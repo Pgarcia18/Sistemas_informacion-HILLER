@@ -4,9 +4,6 @@ include 'config.php';
 session_start();
 
 $link = Conectarse();
-
-$hoy = date('Y-m-d'); 
-
 ?>
 
 <!DOCTYPE html>
@@ -15,7 +12,7 @@ $hoy = date('Y-m-d');
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hiller - Traslado</title>
+        <title>Hiller - Maquinas-Falladas</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/datepicker3.css" rel="stylesheet">
@@ -63,7 +60,7 @@ $hoy = date('Y-m-d');
                 <li><a href="traslado.php"><em class="fa fa-clone">&nbsp;</em> Traslados</a></li>
                  <li><a href="Verificar.php"><em class="fa fa-toggle-off">&nbsp;</em> Verificacion de Orden</a></li>
                  <li><a href="traslado.php"><em class="fa fa-toggle-off">&nbsp;</em> Orden traslado</a></li>
-                 <li><a href="maquina_falladas.php"><em class="fa fa-toggle-off">&nbsp;</em> Maquinas falladas</a></li> 
+                 <li><a href="maquina_falladas.php"><em class="fa fa-toggle-off">&nbsp;</em> Maquinas falladas</a></li>              
                 <li class="parent ">
                     <a data-toggle="collapse" href="#sub-item-1">
                         <em class="fa fa-navicon">&nbsp;</em> Parametros <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
@@ -96,13 +93,13 @@ $hoy = date('Y-m-d');
                     <li><a href="#">
                             <em class="fa fa-home"></em>
                         </a></li>
-                    <li class="active">Traslado</li>
+                    <li class="active">Maquinas Falladas</li>
                 </ol>
             </div><!--/.row-->
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Traslado</h1>
+                    <h1 class="page-header">Maquinas Falladas</h1>
                 </div>
             </div><!--/.row-->
 
@@ -111,31 +108,37 @@ $hoy = date('Y-m-d');
                 <div class="col-md-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            ORDEN DE TRASLADO
+                            REGISTRO MAQUINAS FALLADAS
                             <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
                         </div>
                         <div class="panel-body">
                             <form class="form-horizontal" action="" method="post">
                                 <fieldset>
-                                    <!-- Name input-->
+                                    <!-- idmaquina input-->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="fecemi">Fecha de Emision</label>
+                                        <label class="col-md-4 control-label" for="idmaquina">id maquina</label>
                                         <div class="col-md-8">
-                                            <input id="fecemi" name="fecemi" type="text" placeholder="Fecha de Emision" class="form-control" value="<?php echo $hoy; ?>" required />
+                                            <input id="idmaquina" name="idmaquina" type="text" placeholder="id maquina" class="form-control" value="<?php if($rowM[1] != "" ){ echo $rowM[1]; } ?>" required>
                                         </div>
                                     </div>
 
-                                    <!-- Email input-->
+                                    <!-- Codigo input-->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="fecreq">Fecha Requerida</label>
+                                        <label class="col-md-4 control-label" for="codmaquina">Codigo maquina</label>
                                         <div class="col-md-8">
-                                            <input id="fecreq" name="fecreq" type="text" placeholder="Ej: AAAA-MM-DD" class="form-control">
+                                            <input id="codmaquina" name="codmaquina" type="text" placeholder="cod maquina" class="form-control" value="<?php if($rowM[2] != "" ){ echo $rowM[2]; } ?>" required>
                                         </div>
-                                    </div>
-
-                                    <!-- Email input-->
+                                    </div> 
+                                    <!-- Descripcion input-->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="proveedor">Proveedor</label>
+                                        <label class="col-md-4 control-label" for="descripcion">Descripcion</label>
+                                        <div class="col-md-8">
+                                            <input id="descripcion" name="descripcion" type="text" placeholder="Descripcion" class="form-control" value="<?php if($rowM[3] != "" ){ echo $rowM[3]; } ?>" required>
+                                        </div>
+                                    </div> 
+                                    <!-- proveedor input-->
+                                    <div class="form-group">
+                                        <label class="col-md-4 control-label" for="idprov">Proveedor</label>
                                         <div class="col-md-8">
                                             <select name="proveedor" class="form-control">
                                                 <option value="0">Seleccione...</option>
@@ -157,8 +160,8 @@ $hoy = date('Y-m-d');
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <h3>Detalle del traslado</h3>
+                                    <!--<div class="form-group">
+                                        <h3>Detalle del pedido</h3>
                                         <table class="table table-bordered table-responsive table-striped">
                                             <tr>
                                                 <th>Producto</th>
@@ -168,7 +171,7 @@ $hoy = date('Y-m-d');
                                             </tr>
                                             <tr>
                                                 <td>
-                                                    <select name="producto" class="form-control">
+                                                    <select name="proveedor" class="form-control">
                                                         <option value="0">Seleccione...</option>
                                                         <?php
                                                         $sqlProd = "SELECT `idproducto`, `Nombre` FROM `tblproducto`";
@@ -186,76 +189,33 @@ $hoy = date('Y-m-d');
                                                 <td><input name="subtotal" type="text" placeholder="subtotal Ej: 10,50" class="form-control"></td>
                                             </tr>
                                         </table>
-                                    </div>
+                                    </div>-->
                                     <!-- Message body -->
-                                    <div class="form-group">
+                                   <!-- <div class="form-group">
                                         <div class="col-md-4"></div>
                                         <label class="col-md-4 control-label" for="total">Total </label>
                                         <div class="col-md-4">
                                             <input id="total" name="total" type="text" placeholder="Total" class="form-control">
                                         </div>
                                     </div>
-
+                                    -->
                                     <!-- Message body -->
-                                    <div class="form-group">
+                                  <!--  <div class="form-group">
                                         <label class="col-md-4 control-label" for="observaciones"> Observaciones</label>
                                         <div class="col-md-8">
                                             <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Observaciones..." rows="5"></textarea>
                                         </div>
-                                    </div>
+                                    </div> -->
 
                                     <!-- Form actions -->
                                     <div class="form-group">
                                         <div class="col-md-12 widget-right">
-                                            <input id="guardar" type="submit" class="btn btn-default btn-md pull-right" name="Guardar" value="Guardar"/>
+                                            <button type="submit" class="btn btn-default btn-md pull-right">Guardar</button>
                                         </div>
                                     </div>
                                 </fieldset>
                             </form>
                         </div>
-                    </div>
-                    <div class="panel panel-footer">
-                        <?php
-                        if (isset($_POST['Guardar'])) {
-                            //orden de pedido
-                            $emi = htmlspecialchars($_POST['fecemi']);
-                            $req = htmlspecialchars($_POST['fecreq']);
-                            $prv = htmlspecialchars($_POST['proveedor']);
-                            $tot = htmlspecialchars($_POST['total']);
-                            $obs = htmlspecialchars($_POST['observaciones']);
-                            //detalle de orden de pedido
-                            $prd = htmlspecialchars($_POST['producto']);
-                            $pre = htmlspecialchars($_POST['precio']);
-                            $can = htmlspecialchars($_POST['cantidad']);
-                            $sub = htmlspecialchars($_POST['subtotal']);
-                            
-                            //print_r($_POST);
-
-                            $sqlC = "INSERT INTO `tblorden_pedido`( `fecha_emision`, `fecha_requerida`, `idproveedor`, `monto`, `observaciones`) "
-                                    . "VALUES('" . $emi . "','" . $req . "','" . $prv . "','" . $tot . "','" . $obs . "')";
-                           // echo $sqlC;
-                            $resC = mysql_query($sqlC, $link);
-                            
-                            $idorden = mysql_insert_id();
-                            if ($resC) {
-                                echo "<div class=\"alert alert-success\">Registro Guardado!!</div>";
-                            } else {
-                                die("<div class=\"alert alert-danger\">Ocurrio un error al registrar su pedido.<br> " . mysql_errno() . " " . mysql_error() . "</div>");
-                            }
-                            
-                            $sqlD = "INSERT INTO `detalle_pedido`( `idepedido`, `idproducto`, `cantidad`, `subtotal`) "
-                                    . "VALUES('" . $idorden . "','" . $prd . "','" . $can . "','" . $sub . "')";
-                            //echo $sqlD;
-                            $resD = mysql_query($sqlD, $link);
-                            
-                            if ($resD) {
-                                echo "<div class=\"alert alert-success\">Registro Guardado!!</div>";
-                               // echo "<meta http-equiv=\"Refresh\" content=\"2; url=personas.php\">";
-                            } else {
-                                die("<div class=\"alert alert-danger\">Ocurrio un error al registrar su pedido.<br> " . mysql_errno() . " " . mysql_error() . "</div>");
-                            }
-                        }
-                        ?>
                     </div>
                 </div><!--/.col-->
                 <div class="col-md-2"></div>

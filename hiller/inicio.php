@@ -66,12 +66,15 @@ $rowR = mysql_fetch_row($resR);
             </div>
             <div class="divider"></div>
             <ul class="nav menu">
-                <li class="active"><a href="inicio.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-                <li><a href="pedidos.php"><em class="fa fa-calendar">&nbsp;</em> Pedidos</a></li>
+                <li><a href="inicio.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
+                <li class="active"><a href="pedidos.php"><em class="fa fa-calendar">&nbsp;</em> Pedidos</a></li>
                 <li><a href="entregas.php"><em class="fa fa-bar-chart">&nbsp;</em> Entregas</a></li>
-                <li><a href="reparacion.php"><em class="fa fa-toggle-off">&nbsp;</em> Reparacion</a></li>
+                <li><a href="IniciarReparacion.php"><em class="fa fa-toggle-off">&nbsp;</em> Inicio de Reparacion</a></li>
+                <li><a href="FinalizarReparacion.php"><em class="fa fa-toggle-off">&nbsp;</em>Final Reparacion</a></li>
                 <li><a href="traslado.php"><em class="fa fa-clone">&nbsp;</em> Traslados</a></li>
-                <li><a href="cargo.php"><em class="fa fa-clone">&nbsp;</em> Cargos</a></li>
+                 <li><a href="Verificar.php"><em class="fa fa-toggle-off">&nbsp;</em> Verificacion de Orden</a></li>
+                 <li><a href="traslado.php"><em class="fa fa-toggle-off">&nbsp;</em> Orden traslado</a></li>
+                 <li><a href="maquina_falladas.php"><em class="fa fa-toggle-off">&nbsp;</em> Maquinas falladas</a></li> 
                 <li class="parent ">
                     <a data-toggle="collapse" href="#sub-item-1">
                         <em class="fa fa-navicon">&nbsp;</em> Parametros <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>

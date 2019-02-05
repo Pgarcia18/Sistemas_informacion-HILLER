@@ -3,10 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/F:/xamp/htdocs/hiller/traslado.php</file>
-            <file>file:/F:/xamp/htdocs/hiller/index.php</file>
-            <file>file:/F:/xamp/htdocs/hiller/reparacion.php</file>
-            <file>file:/F:/xamp/htdocs/hiller/usuarios.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/FinalizarReparacion.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/Cargo.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/personas.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/IniciarReparacion.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/maquina_falladas.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/pedidos.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/entregas.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/traslado.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/Verificar.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/config.php</file>
+            <file>file:/C:/xampp/htdocs/hiller/inicio.php</file>
         </group>
     </open-files>
 </project-private>

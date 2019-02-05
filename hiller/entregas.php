@@ -4,6 +4,9 @@ include 'config.php';
 session_start();
 
 $link = Conectarse();
+
+$hoy = date('Y-m-d'); 
+
 ?>
 
 <!DOCTYPE html>
@@ -12,7 +15,7 @@ $link = Conectarse();
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Hiller - Dashboard</title>
+        <title>Hiller - Entregas</title>
         <link href="css/bootstrap.min.css" rel="stylesheet">
         <link href="css/font-awesome.min.css" rel="stylesheet">
         <link href="css/datepicker3.css" rel="stylesheet">
@@ -53,29 +56,33 @@ $link = Conectarse();
             <div class="divider"></div>
             <ul class="nav menu">
                 <li><a href="inicio.php"><em class="fa fa-dashboard">&nbsp;</em> Dashboard</a></li>
-                <li><a href="pedidos.php"><em class="fa fa-calendar">&nbsp;</em> Pedidos</a></li>
-                <li class="active"><a href="entregas.php"><em class="fa fa-bar-chart">&nbsp;</em> Entregas</a></li>
-                <li><a href="reparacion.php"><em class="fa fa-toggle-off">&nbsp;</em> Reparacion</a></li>
+                <li class="active"><a href="pedidos.php"><em class="fa fa-calendar">&nbsp;</em> Pedidos</a></li>
+                <li><a href="entregas.php"><em class="fa fa-bar-chart">&nbsp;</em> Entregas</a></li>
+                <li><a href="IniciarReparacion.php"><em class="fa fa-toggle-off">&nbsp;</em> Inicio de Reparacion</a></li>
+                <li><a href="FinalizarReparacion.php"><em class="fa fa-toggle-off">&nbsp;</em>Final Reparacion</a></li>
                 <li><a href="traslado.php"><em class="fa fa-clone">&nbsp;</em> Traslados</a></li>
+                 <li><a href="Verificar.php"><em class="fa fa-toggle-off">&nbsp;</em> Verificacion de Orden</a></li>
+                 <li><a href="traslado.php"><em class="fa fa-toggle-off">&nbsp;</em> Orden traslado</a></li>
+                 <li><a href="maquina_falladas.php"><em class="fa fa-toggle-off">&nbsp;</em> Maquinas falladas</a></li> 
                 <li class="parent ">
                     <a data-toggle="collapse" href="#sub-item-1">
                         <em class="fa fa-navicon">&nbsp;</em> Parametros <span data-toggle="collapse" href="#sub-item-1" class="icon pull-right"><em class="fa fa-plus"></em></span>
                     </a>
                     <ul class="children collapse" id="sub-item-1">
                         <li>
-                            <a class="" href="#"><span class="fa fa-arrow-right">&nbsp;</span> Personas</a>
+                            <a class="" href="personas.php"><span class="fa fa-arrow-right">&nbsp;</span> Personas</a>
                         </li>
                         <li>
-                            <a class="" href="#"><span class="fa fa-arrow-right">&nbsp;</span> Usuarios</a>
+                            <a class="" href="usuarios.php"><span class="fa fa-arrow-right">&nbsp;</span> Usuarios</a>
                         </li>
                         <li>
-                            <a class="" href="#"><span class="fa fa-arrow-right">&nbsp;</span> Cargos</a>
+                            <a class="" href="cargos.php"><span class="fa fa-arrow-right">&nbsp;</span> Cargos</a>
                         </li>
                         <li>
-                            <a class="" href="#"><span class="fa fa-arrow-right">&nbsp;</span> Productos</a>
+                            <a class="" href="productos.php"><span class="fa fa-arrow-right">&nbsp;</span> Productos</a>
                         </li>
                         <li>
-                            <a class="" href="#"><span class="fa fa-arrow-right">&nbsp;</span> Almacen</a>
+                            <a class="" href="almacen.php"><span class="fa fa-arrow-right">&nbsp;</span> Almacen</a>
                         </li>
                     </ul>
                 </li>
@@ -89,23 +96,22 @@ $link = Conectarse();
                     <li><a href="#">
                             <em class="fa fa-home"></em>
                         </a></li>
-                    <li class="active">Pedidos</li>
+                    <li class="active">Entregas</li>
                 </ol>
             </div><!--/.row-->
 
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Pedidos</h1>
+                    <h1 class="page-header">Entregas</h1>
                 </div>
             </div><!--/.row-->
 
-
-
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-2"></div>
+                <div class="col-md-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                           ORDEN DE PEDIDO
+                            ORDEN DE ENTREGA
                             <span class="pull-right clickable panel-toggle panel-button-tab-left"><em class="fa fa-toggle-up"></em></span>
                         </div>
                         <div class="panel-body">
@@ -113,56 +119,128 @@ $link = Conectarse();
                                 <fieldset>
                                     <!-- Name input-->
                                     <div class="form-group">
-                                        <label class="col-md-4 control-label" for="fecemi">Fecha de Emision</label>
+                                        <label class="col-md-4 control-label" for="fecemi">Fecha:</label>
                                         <div class="col-md-8">
-                                            <input id="fecemi" name="fecemi" type="text" placeholder="Fecha de Emision" class="form-control">
+                                            <input id="fecemi" name="fecemi" type="text" placeholder="Fecha de Emision" class="form-control" value="<?php echo $hoy; ?>" required />
                                         </div>
                                     </div>
 
-                                    <!-- Email input-->
                                     <div class="form-group">
-                                            <label class="col-md-4 control-label" for="fecreq">Fecha Requerida</label>
+                                        <label class="col-md-4 control-label" for="proveedor">Proveedor: </label>
                                         <div class="col-md-8">
-                                            <input id="fecreq" name="fecreq" type="text" placeholder="Fecha Requerida" class="form-control">
+                                            <select name="proveedor" class="form-control">
+                                                <option value="0">Seleccione...</option>
+                                                <?php
+                                                $sqlPro = "Select p.idpersona, u.`Nombre` 
+                                                            from tblusuarios u
+                                                            join tblpersona p on p.idpersona = u.idpersona 
+                                                            join tblcargo c on c.idcargo = u.idcargo 
+                                                            where c.idCargo = 1";
+
+                                                $resPro = mysql_query($sqlPro, $link);
+                                                while ($rowPro = mysql_fetch_row($resPro)) {
+                                                    ?>
+                                                    <option value="<?php echo $rowPro[0]; ?>"><?php echo $rowPro[1]; ?></option>
+                                                    <?php
+                                                }
+                                                ?>
+                                            </select>
                                         </div>
                                     </div>
 
-                                    <!-- Email input-->
                                     <div class="form-group">
-                                            <label class="col-md-4 control-label" for="idprov">Proveedor</label>
-                                        <div class="col-md-8">
-                                            <input id="idprov" name="idprov" type="text" placeholder="Proveedor" class="form-control">
+                                        <h3>Detalle del entrega</h3>
+                                        <table class="table table-bordered table-responsive table-striped">
+                                            <tr>
+                                                <th>Producto</th>
+                                                <th>Precio</th>
+                                                <th>Cantidad</th>
+                                                <th>Subtotal</th>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <select name="producto" class="form-control">
+                                                        <option value="0">Seleccione...</option>
+                                                        <?php
+                                                        $sqlProd = "SELECT `idproducto`, `Nombre` FROM `tblproducto`";
+                                                        $resProd = mysql_query($sqlProd, $link);
+                                                        while ($rowProd = mysql_fetch_row($resProd)) {
+                                                            ?>
+                                                            <option value="<?php echo $rowProd[0]; ?>"><?php echo $rowProd[1]; ?></option>
+                                                            <?php
+                                                        }
+                                                        ?>
+                                                    </select>
+                                                </td>
+                                                <td><input name="precio" type="text" placeholder="Precio Ej: 10,50" class="form-control"></td>
+                                                <td><input name="cantidad" type="text" placeholder="Cantidad" class="form-control"></td>
+                                                <td><input name="subtotal" type="text" placeholder="subtotal Ej: 10,50" class="form-control"></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!-- Message body -->
+                                    <div class="form-group">
+                                        <div class="col-md-4"></div>
+                                        <label class="col-md-4 control-label" for="total">Total </label>
+                                        <div class="col-md-4">
+                                            <input id="total" name="total" type="text" placeholder="Total" class="form-control">
                                         </div>
                                     </div>
+
                                     
-                                    <!-- Message body -->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="monto">Monto </label>
-                                        <div class="col-md-8">
-                                            <input id="monto" name="monto" type="text" placeholder="Monto" class="form-control">
-                                        </div>
-                                    </div>
-
-                                    <!-- Message body -->
-                                    <div class="form-group">
-                                        <label class="col-md-4 control-label" for="observaciones"> Observaciones</label>
-                                        <div class="col-md-8">
-                                            <textarea class="form-control" id="observaciones" name="observaciones" placeholder="Observaciones..." rows="5"></textarea>
-                                        </div>
-                                    </div>
-                                     
                                     <!-- Form actions -->
                                     <div class="form-group">
                                         <div class="col-md-12 widget-right">
-                                            <button type="submit" class="btn btn-default btn-md pull-right">Guardar</button>
+                                            <input id="guardar" type="submit" class="btn btn-default btn-md pull-right" name="Guardar" value="Guardar"/>
                                         </div>
                                     </div>
                                 </fieldset>
                             </form>
                         </div>
                     </div>
-                </div><!--/.col-->
+                    <div class="panel panel-footer">
+                        <?php
+                        if (isset($_POST['Guardar'])) {
+                            //orden de pedido
+                            $emi = htmlspecialchars($_POST['fecemi']);
+                            $prv = htmlspecialchars($_POST['proveedor']);
+                            $tot = htmlspecialchars($_POST['total']);
+                            //detalle de orden de pedido
+                            $prd = htmlspecialchars($_POST['producto']);
+                            $pre = htmlspecialchars($_POST['precio']);
+                            $can = htmlspecialchars($_POST['cantidad']);
+                            $sub = htmlspecialchars($_POST['subtotal']);
+                            
+                            //print_r($_POST);
 
+                            $sqlC = "INSERT INTO `tblorden_entrega`( `fecha`, `idcliente`, `idproveedor`, `monto`) "
+                                    . "VALUES('" . $emi . "','1','" . $prv . "','" . $tot ." )";
+                           // echo $sqlC;
+                            $resC = mysql_query($sqlC, $link);
+                            
+                            $idorden = mysql_insert_id();
+                            if ($resC) {
+                                echo "<div class=\"alert alert-success\">Registro Guardado!!</div>";
+                            } else {
+                                die("<div class=\"alert alert-danger\">Ocurrio un error al registrar su pedido.<br> " . mysql_errno() . " " . mysql_error() . "</div>");
+                            }
+                            
+                            $sqlD = "INSERT INTO `detalle_entrega`( `identrega`, `idproducto`, `cantidad`, `subtotal`) "
+                                    . "VALUES('" . $idorden . "','" . $prd . "','" . $can . "','" . $sub . "')";
+                            //echo $sqlD;
+                            $resD = mysql_query($sqlD, $link);
+                            
+                            if ($resD) {
+                                echo "<div class=\"alert alert-success\">Registro Guardado!!</div>";
+                               // echo "<meta http-equiv=\"Refresh\" content=\"2; url=personas.php\">";
+                            } else {
+                                die("<div class=\"alert alert-danger\">Ocurrio un error al registrar su pedido.<br> " . mysql_errno() . " " . mysql_error() . "</div>");
+                            }
+                        }
+                        ?>
+                    </div>
+                </div><!--/.col-->
+                <div class="col-md-2"></div>
 
 
                 <div class="col-sm-12">
